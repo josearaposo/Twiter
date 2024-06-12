@@ -42,4 +42,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function seguidores()
+    {
+        return $this->belongsToMany(User::class, 'seguidores', 'seguido_id', 'seguidor_id');
+    }
+
+    public function seguidos()
+    {
+        return $this->belongsToMany(User::class, 'seguidores', 'seguidor_id', 'seguido_id');
+    }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
+
+    public function tuits()
+    {
+        return $this->hasMany(Tuit::class);
+    }
+
 }

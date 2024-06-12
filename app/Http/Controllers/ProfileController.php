@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,5 +57,19 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function seguir(User $usuario)
+    {
+        $usu = Auth::user();
+        $usu->seguidos()->attach($usuario);
+        return redirect()->route('usuarios.perfil/{usuario}');
+    }
+
+    public function borrar(User $usuario)
+    {
+
+        Auth::user()->seguidores()->detach($usuario);
+        return redirect()->route('usuarios.perfil/{usuario}');
     }
 }
